@@ -22,10 +22,10 @@ func (s *SqlClient) GetItem(ctx context.Context, id string) (*Item, error) {
 
 	query := sq.Select("*").From("inventory.items").Where(sq.Eq{"id": id})
 
-	//Use $1 format for psql
+	// Use $1 format for psql
 	sql, args, _ := query.PlaceholderFormat(sq.Dollar).ToSql()
 
-	//Allow sqlx to inject variables
+	// Allow sqlx to inject variables
 	if err := s.db.GetContext(ctx, &result, sql, args...); err != nil {
 		return nil, err
 	}
@@ -43,17 +43,17 @@ func (s *SqlClient) UpsertItem(ctx context.Context, item Item) (*Item, error) {
 		insertVals = append(insertVals, item.ID)
 	}
 
-	//upsert squirrel query returning all fields
+	// upsert squirrel query returning all fields
 	query := sq.Insert("inventory.items").Columns(insertCols...).
 		Values(insertVals...).
 		Suffix("ON CONFLICT (id) DO UPDATE SET name = ?, description = ?, price = ?, updated_at = now()", item.Name, item.Description, item.Price).
 		Suffix("RETURNING *")
 
-	//Use $1 format for psql
+	// Use $1 format for psql
 	sql, args, _ := query.PlaceholderFormat(sq.Dollar).ToSql()
 
 	var result Item
-	//Allow sqlx to inject variables
+	// Allow sqlx to inject variables
 	if err := s.db.GetContext(ctx, &result, sql, args...); err != nil {
 		return nil, err
 	}

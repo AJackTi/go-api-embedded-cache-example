@@ -63,7 +63,7 @@ func (s *WebServer) getItemsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//return item as json
+	// return item as json
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(item)
 }
@@ -71,7 +71,7 @@ func (s *WebServer) getItemsHandler(w http.ResponseWriter, r *http.Request) {
 func (s *WebServer) upsertItemsHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
-	//create item from request body
+	// create item from request body
 	var item storage.Item
 	if err := json.NewDecoder(r.Body).Decode(&item); err != nil {
 		slog.Error(err.Error())
@@ -79,7 +79,7 @@ func (s *WebServer) upsertItemsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//check if id exists in db
+	// check if id exists in db
 	if item.ID != "" {
 		_, err := s.StorageClient.GetItem(ctx, item.ID)
 		if err != nil {
@@ -94,7 +94,7 @@ func (s *WebServer) upsertItemsHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	//upsert item in db
+	// upsert item in db
 	result, err := s.StorageClient.UpsertItem(ctx, item)
 	if err != nil {
 		slog.Error(err.Error())
@@ -102,7 +102,7 @@ func (s *WebServer) upsertItemsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//return item as json
+	// return item as json
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(result)
 }

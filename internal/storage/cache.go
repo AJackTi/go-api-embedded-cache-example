@@ -8,7 +8,7 @@ import (
 
 type Cache interface {
 	Set(id string, item Item) error
-	Retreive(id string) (*Item, error)
+	Retrieve(id string) (*Item, error)
 	Remove(id string) error
 }
 
@@ -23,15 +23,13 @@ func NewCacheClient(cache *ristretto.Cache) *CacheClient {
 }
 
 func (c *CacheClient) Set(id string, item Item) error {
-
 	// set item in cache
 	c.cache.SetWithTTL(id, item, 1, time.Duration(12*time.Hour))
 
 	return nil
 }
 
-func (c *CacheClient) Retreive(id string) (*Item, error) {
-
+func (c *CacheClient) Retrieve(id string) (*Item, error) {
 	// get item from cache
 	if item, found := c.cache.Get(id); found {
 		item := item.(Item)

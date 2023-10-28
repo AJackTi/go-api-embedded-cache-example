@@ -38,7 +38,7 @@ func NewStorageClient(sql *SqlClient, cache Cache) *StorageClient {
 }
 
 func (s *StorageClient) GetItem(ctx context.Context, id string) (*Item, error) {
-	cachedResult, err := s.cache.Retreive(id)
+	cachedResult, err := s.cache.Retrieve(id)
 	if err != nil {
 		return nil, err
 	}
@@ -56,9 +56,9 @@ func (s *StorageClient) GetItem(ctx context.Context, id string) (*Item, error) {
 		return nil, err
 	}
 
-	//set item in cache
+	// set item in cache
 	if err := s.cache.Set(id, *result); err != nil {
-		//log error and continue
+		// log error and continue
 		slog.Error(err.Error())
 	}
 
@@ -75,7 +75,7 @@ func (s *StorageClient) UpsertItem(ctx context.Context, item Item) (*Item, error
 }
 
 func (s *StorageClient) ProcessCacheInvalidationMessage(ctx context.Context, msgID string, values map[string]interface{}) error {
-	//log message
+	// log message
 	slog.Info("Processing cache invalidation message:", slog.String("msg_id", msgID))
 
 	type msg struct {
@@ -87,19 +87,19 @@ func (s *StorageClient) ProcessCacheInvalidationMessage(ctx context.Context, msg
 		} `json:"payload"`
 	}
 
-	//extract payload
+	// extract payload
 	for _, v := range values {
-		//marshal to Payload struct
+		// marshal to Payload struct
 		v := v.(string)
 		var message msg
 		if err := json.Unmarshal([]byte(v), &message); err != nil {
 			return err
 		}
 		if message.Payload.Op != "" {
-			//remove item from cache
+			// remove item from cache
 			slog.Info("Removing item from cache:", slog.Int("id", message.Payload.After.ID))
 
-			//convert ID to string
+			// convert ID to string
 			id := strconv.Itoa(message.Payload.After.ID)
 			if err := s.cache.Remove(id); err != nil {
 				return err

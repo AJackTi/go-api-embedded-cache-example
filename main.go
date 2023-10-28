@@ -31,7 +31,7 @@ func main() {
 
 	cacheClient := storage.NewCacheClient(cache)
 
-	//New sqlx DB
+	// New sqlx DB
 	sqlxDB := sqlx.MustConnect("postgres", "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable")
 
 	sqlClient := storage.NewSqlClient(sqlxDB)
