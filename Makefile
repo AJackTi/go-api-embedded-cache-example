@@ -3,6 +3,7 @@ compose-up: ### Run docker-compose
 .PHONY: compose-up
 
 compose-down: ### Run docker-compose
+	rm -rf data && \
 	docker-compose down
 .PHONY: compose-down
 

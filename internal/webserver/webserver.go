@@ -32,8 +32,8 @@ func NewWebServer(storage *storage.StorageClient) *WebServer {
 
 // Register registers the routes for the webserver
 func (s *WebServer) Register() {
-	s.Router.HandleFunc("/items/{id}", s.getItemsHandler).Methods("GET")
-	s.Router.HandleFunc("/items", s.upsertItemsHandler).Methods("PUT")
+	s.Router.HandleFunc("/items/{id}", s.getItemsHandler).Methods(http.MethodGet)
+	s.Router.HandleFunc("/items", s.upsertItemsHandler).Methods(http.MethodPut)
 }
 
 // Run starts the webserver
