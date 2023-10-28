@@ -1,0 +1,59 @@
+{
+	"info": {
+		"_postman_id": "c195bfe7-bd65-4080-86b6-6b07e8160af8",
+		"name": "Go API Embedded Cache Example",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5206614",
+		"_collection_link": "https://warped-spaceship-445483.postman.co/workspace/My-Workspace~256cba7f-29fd-4c96-8c73-2675ce7df264/collection/5206614-c195bfe7-bd65-4080-86b6-6b07e8160af8?action=share&source=collection_link&creator=5206614"
+	},
+	"item": [
+		{
+			"name": "Create item",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"init\",\n    \"description\": \"init description\",\n    \"price\": 12.34\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get item by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/items/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"items",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
